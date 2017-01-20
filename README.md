@@ -16,22 +16,23 @@ In order for this to work you'll need two settings on the S3 side to be properly
 
 * An account with an access key & secret that has write access to the bucket.
 * An S3 Bucket with a a [CORS configuration](http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html) that allows PUT & POST requests from your server. That would look something like this:
-
-	<?xml version="1.0" encoding="UTF-8"?>
-	<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-	    <CORSRule>
-	        <AllowedOrigin>*</AllowedOrigin>
-	        <AllowedMethod>GET</AllowedMethod>
-	        <MaxAgeSeconds>3000</MaxAgeSeconds>
-	        <AllowedHeader>*</AllowedHeader>
-	    </CORSRule>
-	    <CORSRule>
-		    <AllowedOrigin>`[app url]`</AllowedOrigin>
-		    <AllowedMethod>POST</AllowedMethod>
-	    	<AllowedMethod>PUT</AllowedMethod>
-        <AllowedHeader>*</AllowedHeader>
-	    </CORSRule>
-	</CORSConfiguration>
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>*</AllowedHeader>
+  </CORSRule>
+  <CORSRule>
+    <AllowedOrigin>`[app url]`</AllowedOrigin>
+    <AllowedMethod>POST</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+  </CORSRule>
+</CORSConfiguration>
+```
 
 The second `AllowedOrigin` should be the url of the server you're setting up, as described below. If, for example the app you posted was available at `http://data-uploader.herokuapp.com`, you'd set the second CORSRule `AllowedOrigin` to be that url, `http://data-uploader.herokuapp.com`.
 
@@ -51,11 +52,11 @@ The server accepts configuration in two places, a `config.json` file, and envior
 
 ### TODO:
 
-- [] Write a troubleshooting section
-- [] Figure out a web-based solution for files larger than 5GB
-- [] Have site collect uploader details and save to S3 Bucket
-- [] Optionally Calculate MD5 File Hash Client-side
-- [] IP-Address Logging
-- [] Upload Size Restrictions
-- [] Upload Rate Limiting in GB Uploaded / Minute or something
-- [] Make x-amz-public-read header optional for one-way uploads
+- [ ] Write a troubleshooting section
+- [ ] Figure out a web-based solution for files larger than 5GB
+- [ ] Have site collect uploader details and save to S3 Bucket
+- [ ] Optionally Calculate MD5 File Hash Client-side
+- [ ] IP-Address Logging
+- [ ] Upload Size Restrictions
+- [ ] Upload Rate Limiting in GB Uploaded / Minute or something
+- [ ] Make x-amz-public-read header optional for one-way uploads
