@@ -17,24 +17,22 @@ import (
 // a JSON output
 // The request should provide object_name (the filename) as a query parameter
 func SignS3Handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	// poor man's logging
-	fmt.Println(r.Method, r.URL, time.Now())
-
 	// get object name from request
 	objectName := r.FormValue("object_name")
 
-	// response will be json
+	// response will be json, allocate an encoder that operates
+	// on the http writer
 	enc := json.NewEncoder(w)
 
 	// intialize S3 service
 	svc := s3.New(session.New(&aws.Config{
-		Region:      aws.String(aws_region),
-		Credentials: credentials.NewStaticCredentials(aws_access_key_id, aws_secret_access_key, ""),
+		Region:      aws.String(cfg.AwsRegion),
+		Credentials: credentials.NewStaticCredentials(cfg.AwsAccessKeyId, cfg.AwsSecretAccessKey, ""),
 	}))
 
 	// Generate a put object request
 	req, _ := svc.PutObjectRequest(&s3.PutObjectInput{
-		Bucket: aws.String(aws_s3_bucket_name),
+		Bucket: aws.String(cfg.AwsS3BucketName),
 		Key:    aws.String(objectName),
 		ACL:    aws.String("public-read"),
 	})
@@ -53,8 +51,8 @@ func SignS3Handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 		})
 	}
 
-	// object url to link to post-upload
-	objectUrl := fmt.Sprintf("https://%s.s3.amazonaws.com/%s", aws_s3_bucket_name, objectName)
+	// object url to link to post-upload (if public)
+	objectUrl := fmt.Sprintf("https://s3.amazonaws.com/%s/%s", cfg.AwsS3BucketName, objectName)
 
 	// write json response
 	enc.Encode(map[string]string{

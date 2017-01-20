@@ -1,5 +1,13 @@
 {
-	"title" : "Dataset Uploader",
-	"message" : "Max File Size: 5GB",
-	"AWS_REGION" : "us-east-1"
+	"AWS_REGION" : "us-east-1",
+	"HTTP_AUTH_USERNAME" : "foo",
+	"HTTP_AUTH_PASSWORD" : "bar",
+	"deadline" : "2017-01-20T17:54:14.271Z",
+	"template_data" : {
+		"title" : "Dataset Uploader",
+		"message" : "Max File Size: 5GB",
+		"expired_title" : "Upload Period Expired",
+		"expired_message" : "Sorry, but this server is no longer accepting uploads",
+		"access_denied_message" : "Invalid http auth username / password combo"
+	}
 }
