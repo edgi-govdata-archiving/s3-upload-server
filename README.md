@@ -26,7 +26,7 @@ In order for this to work you'll need two settings on the S3 side to be properly
     <AllowedHeader>*</AllowedHeader>
   </CORSRule>
   <CORSRule>
-    <AllowedOrigin>`[app url]`</AllowedOrigin>
+    <AllowedOrigin>[app url]</AllowedOrigin>
     <AllowedMethod>POST</AllowedMethod>
     <AllowedMethod>PUT</AllowedMethod>
     <AllowedHeader>*</AllowedHeader>
@@ -52,10 +52,12 @@ The server accepts configuration in two places, a `config.json` file, and envior
 
 ### TODO:
 
-- [ ] Write a troubleshooting section
+- [ ] Write troubleshooting docs
+- [ ] Client-Side ETA for uploads
 - [ ] Figure out a web-based solution for files larger than 5GB
-- [ ] Have site collect uploader details and save to S3 Bucket
-- [ ] Optionally Calculate MD5 File Hash Client-side
+- [ ] Multi-File Upload
+- [ ] Have site collect uploader details and save to S3 Bucket in json log files
+- [ ] Calculate MD5 File Hash Client-side
 - [ ] IP-Address Logging
 - [ ] Upload Size Restrictions
 - [ ] Upload Rate Limiting in GB Uploaded / Minute or something
