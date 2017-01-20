@@ -1,8 +1,11 @@
 {
 	"AWS_REGION" : "us-east-1",
+
 	"HTTP_AUTH_USERNAME" : "foo",
 	"HTTP_AUTH_PASSWORD" : "bar",
-	"deadline" : "2017-01-20T17:54:14.271Z",
+	
+	"deadline" : "2017-04-20T17:54:14.271Z",
+
 	"template_data" : {
 		"title" : "Dataset Uploader",
 		"message" : "Max File Size: 5GB",
