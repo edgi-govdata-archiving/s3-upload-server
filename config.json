@@ -1,0 +1,5 @@
+{
+	"title" : "Dataset Uploader",
+	"message" : "Max File Size: 5GB",
+	"AWS_REGION" : "us-east-1"
+}
