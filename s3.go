@@ -52,7 +52,7 @@ func SignS3Handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 	}
 
 	// object url to link to post-upload (if public)
-	objectUrl := fmt.Sprintf("https://s3.amazonaws.com/%s/%s", cfg.AwsS3BucketName, objectName)
+	objectUrl := fmt.Sprintf("https://%s.s3.amazonaws.com/%s", cfg.AwsS3BucketName, objectName)
 
 	// write json response
 	enc.Encode(map[string]string{
