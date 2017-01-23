@@ -10,10 +10,10 @@ $(function(){
 		$(".progress-bar .bar").css("width", percent + "%")
 	}
 
-	function done (message) {
+	function done (url) {
+		$(".file-url").attr("href", url).text(url);
 		$(".progress").addClass("hidden");
 		$(".success").removeClass("hidden");
-		console.log(message);
 	}
 
 	function error (err) {
