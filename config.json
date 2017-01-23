@@ -1,8 +1,8 @@
 {
 	"AWS_REGION" : "us-east-1",
 
-	"HTTP_AUTH_USERNAME" : "foo",
-	"HTTP_AUTH_PASSWORD" : "bar",
+	"HTTP_AUTH_USERNAME" : "",
+	"HTTP_AUTH_PASSWORD" : "",
 	
 	"deadline" : "2017-04-20T17:54:14.271Z",
 
