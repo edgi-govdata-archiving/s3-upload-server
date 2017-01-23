@@ -9,6 +9,7 @@ I'm still investigating doing multipart uploads from the browser, which would al
 * **Optional Basic Http Authorization:** Set a global username & password to limit access to the upload area with a simple user/pass combo you can pass around to trusted parties.
 * **Deadline Setting:** Configure the server to stop accepting new uploads after a certain time. Useful to "set & forget" the server without having it accept new uploads forever.
 * **Configurable View Templates:** Set messages & instructions using the config.json file.
+* **Taken-Path-Suffixing** Prevent overwriting existing files by appending a numerical suffix to existing paths
 
 
 ### S3 Requirements
