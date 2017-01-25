@@ -1,8 +1,16 @@
 {
 	"AWS_REGION" : "us-east-1",
 
-	"HTTP_AUTH_USERNAME" : "",
-	"HTTP_AUTH_PASSWORD" : "",
+	"HTTP_AUTH_USERNAME" : "foo",
+	"HTTP_AUTH_PASSWORD" : "bar",
+	
+	"UPLOAD_DIRS" : [
+		"users",
+		"can/only/upload",
+		"to/one/of/these/paths"
+	],
+
+	"deadline" : "2017-06-20T17:54:14.271Z",
 
 	"template_data" : {
 		"title" : "Dataset Uploader",
