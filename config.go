@@ -38,7 +38,13 @@ type config struct {
 
 	// deadline sets a time that beyond which, the server will no longer
 	// accept upload requests.
+	// deadlines should be set in JSON format: 2017-02-20T17:54:14.271Z
 	Deadline *time.Time `json:"DEADLINE"`
+
+	// dirs is a whitelist of accepted paths specified with a "dir"
+	// query parameter to the signing endpoint. If no dirs are specified
+	// uploading to a directory is disabled.
+	Dirs []string `json:"dirs"`
 
 	// config used for rendering to templates. in config.json set
 	// template_data to an object, and anything provided there
@@ -112,4 +118,18 @@ func requireConfigStrings(values map[string]string) error {
 	}
 
 	return nil
+}
+
+// outputs any notable settings to stdout
+func printConfigInfo() {
+	// print if using auth
+	if cfg.HttpAuthUsername != "" && cfg.HttpAuthPassword != "" {
+		fmt.Println("http authorization enabled", cfg.Port)
+	}
+	if cfg.Deadline != nil {
+		fmt.Println("deadline for uploading set:", cfg.Deadline.String())
+	}
+	if len(cfg.Dirs) > 0 {
+		fmt.Println("limiting uploading to the following paths:", cfg.Dirs)
+	}
 }

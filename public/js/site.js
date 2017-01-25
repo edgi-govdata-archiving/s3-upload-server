@@ -5,6 +5,7 @@ void 0!==c?null===c?void r.removeAttr(a,b):e&&"set"in e&&void 0!==(d=e.set(a,c,b
 
 
 $(function(){
+	var dir = queryParam("dir")
 
 	function progress (percent, message) {
 		$(".progress-bar .bar").css("width", percent + "%")
@@ -18,17 +19,21 @@ $(function(){
 
 	function error (err) {
 		$(".progress").addClass("hidden");
+		if (err) {
+			$(".error .message").text(err);
+		}
 		$(".error").removeClass("hidden");
-		console.log(err);
 	}
 
 	$("form").on("submit", function(e){
 		e.preventDefault();
 		$(".select-file").addClass("hidden");
 		$(".progress").removeClass("hidden");
-		var file = document.getElementById("file_upload")
+
+		var file = document.getElementById("file_upload");
 		var ul = new S3Upload(file, {
 			s3_sign_put_url: "/token",
+			dir : dir,
 			onProgress: progress,
 			onFinishS3Put: done,
 			onError: error,
@@ -37,8 +42,20 @@ $(function(){
 
 	});
 
-
 });
+
+// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function queryParam(name, url) {
+  if (!url) {
+    url = window.location.href;
+  }
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return '';
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 
 function S3Upload(el, options) {
@@ -96,7 +113,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
   var this_s3upload, xhr;
   this_s3upload = this;
   xhr = new XMLHttpRequest();
-  xhr.open('GET', this.s3_sign_put_url + '?mime_type=' + file.type + '&object_name=' + file.name + '&object_size=' + file.size , true);
+  xhr.open('GET', this.s3_sign_put_url + '?mime_type=' + file.type + '&dir=' + this.dir + '&object_name=' + file.name + '&object_size=' + file.size , true);
   xhr.overrideMimeType('text/plain; charset=x-user-defined');
   xhr.onreadystatechange = function(e) {
     var result;
@@ -110,6 +127,15 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
 
       return callback(result.signedRequest, result.url);
     } else if (this.readyState === 4 && this.status !== 200) {
+    	try {
+        result = JSON.parse(this.responseText);
+        if (result.error) {
+        	return this_s3upload.onError(result.error);
+        }
+      } catch (error) {
+        return this_s3upload.onError('Signing server returned some ugly/empty JSON: "' + this.responseText + '"');
+      }
+
       return this_s3upload.onError('Could not contact request signing server. Status = ' + this.status);
     }
   };

@@ -10,6 +10,7 @@ I'm still investigating doing multipart uploads from the browser, which would al
 * **Deadline Setting:** Configure the server to stop accepting new uploads after a certain time. Useful to "set & forget" the server without having it accept new uploads forever.
 * **Configurable View Templates:** Set messages & instructions using the config.json file.
 * **Taken-Path-Suffixing** Prevent overwriting existing files by appending a numerical suffix to existing paths
+* **Upload Directories** Set a list of directories (paths) that the uploader is allowed to upload to
 
 
 ### S3 Requirements

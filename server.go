@@ -15,11 +15,9 @@ func init() {
 	var err error
 	cfg, err = initConfig()
 	if err != nil {
-		fmt.Println(cfg)
 		// panic if the server is missing a vital configuration detail
 		panic(fmt.Errorf("server configuration error: %s", err.Error()))
 	}
-
 }
 
 func main() {
@@ -36,15 +34,11 @@ func main() {
 	r.ServeFiles("/css/*filepath", http.Dir("public/css"))
 	r.ServeFiles("/js/*filepath", http.Dir("public/js"))
 
+	// print notable config settings
+	printConfigInfo()
+
 	// fire it up!
 	fmt.Println("starting server on port", cfg.Port)
-	// print if using auth
-	if cfg.HttpAuthUsername != "" && cfg.HttpAuthPassword != "" {
-		fmt.Println("http authorization enabled", cfg.Port)
-	}
-	if cfg.Deadline != nil {
-		fmt.Println("deadline for uploading set:", cfg.Deadline.String())
-	}
 	// start server wrapped in a call to panic b/c http.ListenAndServe will not
 	// return unless there's an error
 	panic(http.ListenAndServe(":"+cfg.Port, r))
