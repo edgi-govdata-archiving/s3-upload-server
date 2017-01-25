@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -41,10 +42,11 @@ type config struct {
 	// deadlines should be set in JSON format: 2017-02-20T17:54:14.271Z
 	Deadline *time.Time `json:"DEADLINE"`
 
-	// dirs is a whitelist of accepted paths specified with a "dir"
+	// upload dirs is a whitelist of accepted paths specified with a "dir"
 	// query parameter to the signing endpoint. If no dirs are specified
 	// uploading to a directory is disabled.
-	Dirs []string `json:"dirs"`
+	// can also be set with an ENV variable, using commas to separate dirs
+	UploadDirs []string `json:"UPLOAD_DIRS"`
 
 	// config used for rendering to templates. in config.json set
 	// template_data to an object, and anything provided there
@@ -84,6 +86,7 @@ func initConfig() (cfg *config, err error) {
 	cfg.AwsSecretAccessKey = readEnvString("AWS_SECRET_ACCESS_KEY", cfg.AwsSecretAccessKey)
 	cfg.HttpAuthUsername = readEnvString("HTTP_AUTH_USERNAME", cfg.HttpAuthUsername)
 	cfg.HttpAuthPassword = readEnvString("HTTP_AUTH_PASSWORD", cfg.HttpAuthPassword)
+	cfg.UploadDirs = readEnvStringSlice("UPLOAD_DIRS", cfg.UploadDirs)
 
 	// make sure port is set
 	if cfg.Port == "" {
@@ -109,6 +112,14 @@ func readEnvString(key, def string) string {
 	return def
 }
 
+// readEnvString reads a slice of strings from key environment var, returns def if empty
+func readEnvStringSlice(key string, def []string) []string {
+	if env := os.Getenv(key); env != "" {
+		return strings.Split(env, ",")
+	}
+	return def
+}
+
 // requireConfigStrings panics if any of the passed in values aren't set
 func requireConfigStrings(values map[string]string) error {
 	for key, value := range values {
@@ -122,14 +133,19 @@ func requireConfigStrings(values map[string]string) error {
 
 // outputs any notable settings to stdout
 func printConfigInfo() {
+	fmt.Println("\nupload server config:")
 	// print if using auth
 	if cfg.HttpAuthUsername != "" && cfg.HttpAuthPassword != "" {
-		fmt.Println("http authorization enabled", cfg.Port)
+		fmt.Println("\thttp authorization enabled", cfg.Port)
 	}
 	if cfg.Deadline != nil {
-		fmt.Println("deadline for uploading set:", cfg.Deadline.String())
+		fmt.Println("\tdeadline for uploading set:", cfg.Deadline.String())
 	}
-	if len(cfg.Dirs) > 0 {
-		fmt.Println("limiting uploading to the following paths:", cfg.Dirs)
+	if len(cfg.UploadDirs) > 0 {
+		fmt.Println("\tlimiting uploading to the following paths:")
+		for _, d := range cfg.UploadDirs {
+			fmt.Println("\t\t", d)
+		}
 	}
+	fmt.Println()
 }

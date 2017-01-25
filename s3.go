@@ -92,8 +92,8 @@ func RequestPath(r *http.Request) (string, error) {
 	// get object name from request
 	objectName := r.FormValue("object_name")
 
-	if len(cfg.Dirs) > 0 {
-		for _, d := range cfg.Dirs {
+	if len(cfg.UploadDirs) > 0 {
+		for _, d := range cfg.UploadDirs {
 			if dir == strings.Trim(d, "/") {
 				return filepath.Join(dir, objectName), nil
 			}
