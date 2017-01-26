@@ -6,6 +6,11 @@ void 0!==c?null===c?void r.removeAttr(a,b):e&&"set"in e&&void 0!==(d=e.set(a,c,b
 
 $(function(){
 	var dir = queryParam("dir")
+		, dirPicker = $(".dir-picker");
+
+	if (dir) {
+		dirPicker.val(dir);
+	}
 
 	function progress (percent, message) {
 		$(".progress-bar .bar").css("width", percent + "%")
@@ -33,7 +38,7 @@ $(function(){
 		var file = document.getElementById("file_upload");
 		var ul = new S3Upload(file, {
 			s3_sign_put_url: "/token",
-			dir : dir,
+			dir : dirPicker.val(),
 			onProgress: progress,
 			onFinishS3Put: done,
 			onError: error,

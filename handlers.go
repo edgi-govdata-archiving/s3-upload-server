@@ -23,6 +23,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func renderTemplate(w http.ResponseWriter, tmpl string) {
 	err := templates.ExecuteTemplate(w, tmpl, cfg.TemplateData)
 	if err != nil {
+		fmt.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

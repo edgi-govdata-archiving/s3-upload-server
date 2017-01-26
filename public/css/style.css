@@ -96,6 +96,14 @@ body {
 	margin-left: 3px;
 }
 
+label {
+	display: block;
+}
+
+.dir-picker {
+	margin-bottom: 20px;
+}
+
 /*
 .select-file {
 	width: 0.1px;

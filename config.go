@@ -88,6 +88,14 @@ func initConfig() (cfg *config, err error) {
 	cfg.HttpAuthPassword = readEnvString("HTTP_AUTH_PASSWORD", cfg.HttpAuthPassword)
 	cfg.UploadDirs = readEnvStringSlice("UPLOAD_DIRS", cfg.UploadDirs)
 
+	// Make sure TemplateData is set
+	if cfg.TemplateData == nil {
+		cfg.TemplateData = map[string]interface{}{}
+	}
+
+	// add upload_dirs to template data
+	cfg.TemplateData["upload_dirs"] = cfg.UploadDirs
+
 	// make sure port is set
 	if cfg.Port == "" {
 		cfg.Port = "8080"

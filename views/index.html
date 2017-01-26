@@ -26,6 +26,21 @@
 			</div>
 			<div class="select-file">
 				<div class="filepicker">
+					{{ if .upload_dirs}}
+					<div class="pick-dir">
+						<label>Upload Directory:</label>
+						<select class="dir-picker" name="dir">
+						{{ range $idx, $d := .upload_dirs }}
+							{{ if eq $idx 0 }}
+								<option value="{{.}}" selected>{{ $d }}</option>
+							{{ else }}
+								<option value="{{.}}">{{ $d }}</option>
+							{{ end }}
+						{{ end }}
+						</select>
+					</div>
+					{{ end }}
+
 					<label>Select File</label>
 					<input id="file_upload" class="select-file" name="file" type="file" name="Choose a File to Upload">
 				</div>
