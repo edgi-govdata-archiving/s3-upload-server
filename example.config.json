@@ -10,6 +10,8 @@
 		"to/one/of/these/paths"
 	],
 
+	"ALLOWED_ORIGINS" : ["*"],
+
 	"deadline" : "2017-06-20T17:54:14.271Z",
 
 	"template_data" : {

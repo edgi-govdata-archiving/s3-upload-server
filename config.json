@@ -1,8 +1,10 @@
 {
 	"AWS_REGION" : "us-east-1",
 
-	"HTTP_AUTH_USERNAME" : "",
-	"HTTP_AUTH_PASSWORD" : "",
+	"HTTP_AUTH_USERNAME" : "keyboard",
+	"HTTP_AUTH_PASSWORD" : "cat",
+
+	"ALLOWED_ORIGINS" : ["http://localhost:3000"],
 
 	"template_data" : {
 		"title" : "Dataset Uploader",

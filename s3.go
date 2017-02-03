@@ -100,6 +100,7 @@ func RequestPath(r *http.Request) (string, error) {
 		}
 		return "", fmt.Errorf("invalid directory for uploading: '%s'", dir)
 	} else if dir != "" {
+		fmt.Printf("attempting to upload to directory: %s\n", dir)
 		return "", fmt.Errorf("this server does not support uploading to a directory")
 	}
 

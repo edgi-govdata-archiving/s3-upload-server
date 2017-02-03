@@ -48,6 +48,9 @@ type config struct {
 	// can also be set with an ENV variable, using commas to separate dirs
 	UploadDirs []string `json:"UPLOAD_DIRS"`
 
+	// support CORS signing from a list of origins
+	AllowedOrigins []string `json:"ALLOWED_ORIGINS"`
+
 	// config used for rendering to templates. in config.json set
 	// template_data to an object, and anything provided there
 	// will be available to the templates in the views directory.
@@ -87,6 +90,7 @@ func initConfig() (cfg *config, err error) {
 	cfg.HttpAuthUsername = readEnvString("HTTP_AUTH_USERNAME", cfg.HttpAuthUsername)
 	cfg.HttpAuthPassword = readEnvString("HTTP_AUTH_PASSWORD", cfg.HttpAuthPassword)
 	cfg.UploadDirs = readEnvStringSlice("UPLOAD_DIRS", cfg.UploadDirs)
+	cfg.AllowedOrigins = readEnvStringSlice("ALLOWED_ORIGINS", cfg.AllowedOrigins)
 
 	// Make sure TemplateData is set
 	if cfg.TemplateData == nil {
@@ -142,7 +146,6 @@ func requireConfigStrings(values map[string]string) error {
 // outputs any notable settings to stdout
 func printConfigInfo() {
 	fmt.Println("\nupload server config:")
-	// print if using auth
 	if cfg.HttpAuthUsername != "" && cfg.HttpAuthPassword != "" {
 		fmt.Println("\thttp authorization enabled", cfg.Port)
 	}
@@ -153,6 +156,12 @@ func printConfigInfo() {
 		fmt.Println("\tlimiting uploading to the following paths:")
 		for _, d := range cfg.UploadDirs {
 			fmt.Println("\t\t", d)
+		}
+	}
+	if len(cfg.AllowedOrigins) > 0 {
+		fmt.Println("\taccepting requests from the following origins:")
+		for _, o := range cfg.AllowedOrigins {
+			fmt.Println("\t\t", o)
 		}
 	}
 	fmt.Println()

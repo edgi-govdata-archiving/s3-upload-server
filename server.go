@@ -27,6 +27,9 @@ func main() {
 	// home handler, wrapped in middlware func
 	r.GET("/", middleware(HomeHandler))
 
+	// handle CORS requests
+	r.OPTIONS("/token", CORSHandler)
+
 	// token handler to generate s3 signatures
 	r.GET("/token", middleware(SignS3Handler))
 

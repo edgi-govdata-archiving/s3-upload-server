@@ -12,6 +12,8 @@ $(function(){
 		dirPicker.val(dir);
 	}
 
+	console.log(dirPicker);
+
 	function progress (percent, message) {
 		$(".progress-bar .bar").css("width", percent + "%")
 	}
@@ -38,7 +40,7 @@ $(function(){
 		var file = document.getElementById("file_upload");
 		var ul = new S3Upload(file, {
 			s3_sign_put_url: "/token",
-			dir : dirPicker.val(),
+			dir : dirPicker.length ? dirPicker.val() : "",
 			onProgress: progress,
 			onFinishS3Put: done,
 			onError: error,
