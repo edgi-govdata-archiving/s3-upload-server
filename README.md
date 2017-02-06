@@ -17,7 +17,7 @@ I'm still investigating doing multipart uploads from the browser, which would al
 ### S3 Requirements
 In order for this to work you'll need two settings on the S3 side to be properly configured:
 
-* An account with an access key & secret that has write access to the bucket.
+* An account with an access key & secret that has write access to the bucket. See [sample user policies](sample_user_policies.md)
 * An S3 Bucket with a a [CORS configuration](http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html) that allows PUT & POST requests from your server. That would look something like this:
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -53,7 +53,9 @@ Posting this server to [Heroku](http://heroku.com) is the easiest way to get up 
 The server accepts configuration in two places, a `config.json` file, and enviornment variables. **Secrets such as the AWS_SECRET_ACCESS_KEY should always be set with enviornment variables.**. If you're running this code locally it can be convenient to set these values in the config.json for testing purposes, but they should *never* be checked into the git repository.
 
 ### Burner Credentials
-To use burner credentials, first the `EnableBurnerCredentials` option must be `true` in configuration. This will open up an endpoint that you can issue GET requests to: ```/burner?object_name=example.zip&dir=example_directory&format=json```
+To use burner credentials, first the `EnableBurnerCredentials` configuration option must be `true` in configuration. Additionally, the configured AWS account must be allowed to perform the `sts:GetFederationToken` action. For more info, check the [sample user policies](sample_user_policies.md).
+
+This will open up an endpoint that you can issue GET requests to: ```/burner?object_name=example.zip&dir=example_directory&format=json```
 
 * `object_name` is the name of the file to upload. If the requested name is already in the bucket _an untaken name will be returned_.
 * This url will use any of the configured directories, specified by the `dir` param. If directories aren't specified this param will not be allowed.
