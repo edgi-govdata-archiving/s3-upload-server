@@ -37,6 +37,9 @@ type config struct {
 	// read from env variable: HTTP_AUTH_PASSWORD
 	HttpAuthPassword string `json:"HTTP_AUTH_PASSWORD"`
 
+	// flag to activate Burner Credentials feature
+	EnableBurnerCredentials bool `json:"enable_burner_credentials"`
+
 	// deadline sets a time that beyond which, the server will no longer
 	// accept upload requests.
 	// deadlines should be set in JSON format: 2017-02-20T17:54:14.271Z

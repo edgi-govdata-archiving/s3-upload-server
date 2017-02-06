@@ -1,16 +1,21 @@
 {
 	"AWS_REGION" : "us-east-1",
 
-	"HTTP_AUTH_USERNAME" : "keyboard",
-	"HTTP_AUTH_PASSWORD" : "cat",
+	"HTTP_AUTH_USERNAME" : "",
+	"HTTP_AUTH_PASSWORD" : "",
 
-	"ALLOWED_ORIGINS" : ["http://localhost:3000"],
+	"ALLOWED_ORIGINS" : [],
+
+	"enable_burner_credentials" : true,
 
 	"template_data" : {
 		"title" : "Dataset Uploader",
 		"message" : "Max File Size: 5GB",
 		"expired_title" : "Upload Period Expired",
 		"expired_message" : "Sorry, but this server is no longer accepting uploads",
-		"access_denied_message" : "Invalid http auth username / password combo"
+		"access_denied_message" : "Invalid http auth username / password combo",
+
+		"burner_title" : "One-Time upload credentials",
+		"burner_message" : "The following is a set of credentials to upload a file to s3 using AWS tools. "
 	}
 }

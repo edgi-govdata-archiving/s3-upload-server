@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ .Config.title }}</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="/js/site.js"></script>
+</head>
+<body>
+	<div>
+		<div id="burner-instructions">
+			<h1 class="title">{{ .Config.burner_title }}</h1>
+			<p class="info">{{ .Config.burner_message }}</p>
+			<p>These credentials only allow you to upload a single file to the aws S3 path: <b>s3.amazonaws.com/{{ .Bucket }}/{{ .Path }}</b>. These credentials will expire {{ .Expiry }}</p>
+			<label>Credentials:</label>
+			<pre>{{ .Credentials }}</pre>
+			<div>
+				<h3>Uploading using aws CLI</h3>
+				<p>The following guide assumes that you have the aws <a href="https://aws.amazon.com/cli/">command line interface</a> installed. Assuming you have the CLI installed, the two steps are to first configure the client to use these credentials, and then run the upload.</p>
+				<h4>1. Export Env Variable settings</h4>
+				<p>On Unix / Mac operating systems in a terminial enter the following (note the lines are long, copy &amp; paste carefully):</p>
+				<pre>export AWS_ACCESS_KEY_ID={{ .AWS_ACCESS_KEY_ID }}</pre>
+				<pre>export AWS_SECRET_ACCESS_KEY={{ .AWS_SECRET_ACCESS_KEY }}</pre>
+				<pre>export AWS_SESSION_TOKEN={{ .AWS_SESSION_TOKEN }}</pre>
+				<p>On a PC those same commands would look like this:</p>
+				<pre>SET AWS_ACCESS_KEY_ID={{ .AWS_ACCESS_KEY_ID }}</pre>
+				<pre>SET AWS_SECRET_ACCESS_KEY={{ .AWS_SECRET_ACCESS_KEY }}</pre>
+				<pre>SET AWS_SESSION_TOKEN={{ .AWS_SESSION_TOKEN }}</pre>
+				<h4>2. Upload Your File</h4>
+				<p>Assuming the file you'd like to upload is in the current directory, run the following command to upload your file:</p>
+				<pre>aws s3 cp {{ .Filename }} s3://{{ .Bucket }}/{{ .Path }} --region {{ .Region }}</pre>
+				<h4>3. Party.</h4>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

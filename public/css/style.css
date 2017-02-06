@@ -104,27 +104,22 @@ label {
 	margin-bottom: 20px;
 }
 
-/*
-.select-file {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+#burner-instructions {
+	width: 80%;
+	max-width: 960px;
+	min-width: 300px;
+	margin: 0 auto 5em auto;
+	background: white;
+	border-radius: 4px;
+	padding: 0.1em 1em 2em 1em;
+	box-shadow: 0 0 5px #888;
 }
 
-.select-file + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-    cursor: pointer;
+pre {
+	display: block;
+	width 100%;
+	background: rgb(230,230,230);
+	padding: 0.4em;
+	border-radius: 3px;
+	overflow-x: auto;
 }
-
-.select-file:focus + label,
-.select-file + label:hover {
-    background-color: red;
-}
-*/

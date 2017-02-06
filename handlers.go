@@ -12,7 +12,13 @@ import (
 
 // templates is a collection of views for rendering with the renderTemplate function
 // see homeHandler for an example
-var templates = template.Must(template.ParseFiles("views/index.html", "views/expired.html", "views/accessDenied.html", "views/notFound.html"))
+var templates = template.Must(template.ParseFiles(
+	"views/index.html",
+	"views/expired.html",
+	"views/accessDenied.html",
+	"views/notFound.html",
+	"views/burner.html",
+))
 
 // CORSHandler is an empty 200 response for OPTIONS requests that responds with
 // headers set in addCorsHeaders

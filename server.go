@@ -32,6 +32,7 @@ func main() {
 
 	// token handler to generate s3 signatures
 	r.GET("/token", middleware(SignS3Handler))
+	r.GET("/burner", middleware(BurnerTokenHandler))
 
 	// serve static content from public directory
 	r.ServeFiles("/css/*filepath", http.Dir("public/css"))
