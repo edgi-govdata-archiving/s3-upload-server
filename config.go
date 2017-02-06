@@ -155,6 +155,9 @@ func printConfigInfo() {
 	if cfg.Deadline != nil {
 		fmt.Println("\tdeadline for uploading set:", cfg.Deadline.String())
 	}
+	if cfg.EnableBurnerCredentials {
+		fmt.Println("\tburner credentials enabled")
+	}
 	if len(cfg.UploadDirs) > 0 {
 		fmt.Println("\tlimiting uploading to the following paths:")
 		for _, d := range cfg.UploadDirs {
