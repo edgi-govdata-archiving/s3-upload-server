@@ -67,8 +67,9 @@ func BurnerTokenHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Par
 	}
 
 	if r.FormValue("format") == "json" {
-		// res.String() is valid json, so we can pass it directly to the writer
-		w.Write([]byte(res.String()))
+		if err := enc.Encode(res); err != nil {
+			fmt.Printf("json encoding error: %s", err)
+		}
 		return
 	}
 
