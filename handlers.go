@@ -50,7 +50,6 @@ func middleware(handler httprouter.Handle) httprouter.Handle {
 			fmt.Println(r.Method, r.URL.Path, time.Now())
 
 			user, pass, ok := r.BasicAuth()
-			fmt.Println(user, pass, ok)
 			if !ok || subtle.ConstantTimeCompare([]byte(user), []byte(cfg.HttpAuthUsername)) != 1 || subtle.ConstantTimeCompare([]byte(pass), []byte(cfg.HttpAuthPassword)) != 1 {
 				w.Header().Set("WWW-Authenticate", `Basic realm="Please enter your username and password for this site"`)
 				w.WriteHeader(http.StatusUnauthorized)
@@ -85,7 +84,6 @@ func middleware(handler httprouter.Handle) httprouter.Handle {
 		}
 
 		addCorsHeaders(w, r)
-
 		handler(w, r, p)
 	}
 }
