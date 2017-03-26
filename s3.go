@@ -83,6 +83,42 @@ func SignS3Handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) 
 	})
 }
 
+func StatsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	// response will be json, allocate an encoder that operates
+	// on the http writer
+	enc := json.NewEncoder(w)
+
+	// trim off left & right slashes from the specified dir
+	dir := r.FormValue("dir")
+	if dir == "" {
+		w.WriteHeader(http.StatusInternalServerError)
+		enc.Encode(map[string]string{
+			"error": "please specifiy a 'dir' query param of the directory to list stats for",
+		})
+		return
+	}
+
+	// intialize S3 service
+	svc := s3.New(session.New(&aws.Config{
+		Region:      aws.String(cfg.AwsRegion),
+		Credentials: credentials.NewStaticCredentials(cfg.AwsAccessKeyId, cfg.AwsSecretAccessKey, ""),
+	}))
+
+	stats, err := PathStats(svc, dir)
+	if err != nil {
+		fmt.Println("error generating stats json", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		enc.Encode(map[string]string{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := enc.Encode(stats); err != nil {
+		fmt.Println("encode json error:", err.Error())
+	}
+}
+
 // RequestPath generates the path from a given request by comparing
 // any dirs specified in configuration with "dir" request param, and
 // adding that the "object_name" request param
@@ -145,4 +181,31 @@ func GetEmptyPath(svc *s3.S3, path string) (string, error) {
 	}
 
 	return path, nil
+}
+
+type Stat struct {
+	Created time.Time `json:"created"`
+	Size    int64     `json:"size"`
+}
+
+func PathStats(svc *s3.S3, path string) ([]*Stat, error) {
+	res, err := svc.ListObjects(&s3.ListObjectsInput{
+		Bucket: aws.String(cfg.AwsS3BucketName),
+		Prefix: aws.String(path),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	stats := make([]*Stat, 0)
+	for _, o := range res.Contents {
+		stat := &Stat{
+			Created: *o.LastModified,
+			Size:    *o.Size,
+		}
+		stats = append(stats, stat)
+	}
+
+	return stats, err
 }
